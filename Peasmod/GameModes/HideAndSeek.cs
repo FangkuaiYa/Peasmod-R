@@ -105,7 +105,7 @@ namespace Peasmod.GameModes
 
         public override void OnKill(PlayerControl killer, PlayerControl victim)
         {
-            ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
         }
 
         public override bool OnMeetingCall(PlayerControl caller, GameData.PlayerInfo target)

@@ -35,9 +35,12 @@ namespace Peasmod
             WatermarkManager.AddWatermark($" | {PluginName} v{PluginVersion} {PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $"\n{PluginName} v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", 
                 new Vector3(0f, -0.3f),  new Vector3(-0.9f, 0f));
             
-            CustomServerManager.RegisterServer("Peaspowered", "au.peasplayer.tk", 22023);
-            CustomServerManager.RegisterServer("matux.fr", "152.228.160.91", 22023);
-            CustomServerManager.RegisterServer("Fungle.ICU", "api.fungle.icu", 10890);
+            //CustomServerManager.RegisterServer("Peaspowered", "au.peasplayer.tk", 22023);
+            CustomServerManager.RegisterServer("Fungle.ICU (HK)", "https://auhk.fungle.icu", 443);
+            CustomServerManager.RegisterServer("Fungle.ICU (SQ)", "https://player.fungle.icu", 443);
+            CustomServerManager.RegisterServer("Modded EU (MEU)", "https://au-eu.duikbo.at", 443);
+            CustomServerManager.RegisterServer("Modded NA (MNA)", "https://www.aumods.org", 443);
+            CustomServerManager.RegisterServer("Modded Asia (MAS)", "https://au-as.duikbo.at", 443);
             
             UpdateManager.RegisterGitHubUpdateListener("Peasplayer", "Peasmod");
             

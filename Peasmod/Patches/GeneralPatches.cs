@@ -98,13 +98,10 @@ namespace Peasmod.Patches
         {
             if (PeasAPI.PeasAPI.GameStarted && !Settings.Sabotaging.Value)
             {
-                HudManager.Instance.ShowMap((Action<MapBehaviour>)(map =>
+                foreach (MapRoom mapRoom in MapBehaviour.Instance.infectedOverlay.rooms.ToArray())
                 {
-                    foreach (MapRoom mapRoom in map.infectedOverlay.rooms.ToArray())
-                    {
-                        mapRoom.gameObject.SetActive(false);
-                    }
-                }));
+                    mapRoom.gameObject.SetActive(false);
+                }
 
                 //return false;
             }

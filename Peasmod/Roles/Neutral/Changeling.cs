@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP;
 using PeasAPI;
 using PeasAPI.Components;

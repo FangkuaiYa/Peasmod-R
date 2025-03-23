@@ -135,7 +135,7 @@ namespace Peasmod.GameModes
         {
             if (victim.IsLocal())
                 RpcRemoveProp(PlayerControl.LocalPlayer, victim);
-            ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
         }
 
         public override bool OnMeetingCall(PlayerControl caller, GameData.PlayerInfo target)

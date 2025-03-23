@@ -89,7 +89,7 @@ namespace Peasmod.Roles.Crewmate
         {
             if (deathOrRevive)
             {
-                sender.Die(DeathReason.Kill);
+                sender.Die(DeathReason.Kill, false);
             }
             else
             {
