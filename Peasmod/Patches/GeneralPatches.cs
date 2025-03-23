@@ -3,7 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using PeasAPI;
 using PeasAPI.Managers;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -65,7 +65,7 @@ namespace Peasmod.Patches
                 aspect.AdjustPosition();
                 var button = spectatorButton.GetComponent<ButtonBehavior>();
                 button.OnClick.RemoveAllListeners();
-                button.OnClick.AddListener((UnityEngine.Events.UnityAction) Listener);
+                button.OnClick.AddListener((UnityAction) Listener);
                 void Listener()
                 {
                     PlayerMenuManager.OpenPlayerMenu(
