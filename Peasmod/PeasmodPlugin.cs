@@ -1,10 +1,9 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using HarmonyLib;
 using Reactor;
 using BepInEx.Logging;
-using PeasAPI;
+using BepInEx.Unity.IL2CPP;
 using PeasAPI.Managers;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace Peasmod
 
         public const string PluginName = "Peasmod";
         public const string PluginAuthor = "Peasplayer#2541";
-        public const string PluginVersion = "3.0.0-pre2.1";
+        public const string PluginVersion = "3.0.0-pre2.3";
 
         public Harmony Harmony { get; } = new Harmony(Id);
         
@@ -33,7 +32,7 @@ namespace Peasmod
             Logger = Log;
             ConfigFile = Config;
 
-            WatermarkManager.AddWatermark($" | {PluginName} v{PluginVersion} {PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $" | {PluginName} v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", 
+            WatermarkManager.AddWatermark($" | <color=#ff0000ff>{PluginName}</color> v{PluginVersion} {PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $"\n<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", 
                 new Vector3(0f, -0.3f),  new Vector3(-0.9f, 0f));
             
             CustomServerManager.RegisterServer("Peaspowered", "au.peasplayer.tk", 22023);
@@ -42,7 +41,7 @@ namespace Peasmod
             
             UpdateManager.RegisterGitHubUpdateListener("Peasplayer", "Peasmod");
             
-            CustomHatManager.RegisterNewVisor("DreamMask", "Peasmod.Resources.Hats.DreamMask.png", new Vector2(0f, 0.2f));
+            /*CustomHatManager.RegisterNewVisor("DreamMask", "Peasmod.Resources.Hats.DreamMask.png", new Vector2(0f, 0.2f));
             CustomHatManager.RegisterNewVisor("PeasMask", "Peasmod.Resources.Hats.PeasMask.png", new Vector2(0f, 0.2f));
             CustomHatManager.RegisterNewHat("Sitting Tux", "Peasmod.Resources.Hats.Tux.png", new Vector2(0f, 0.2f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Tuxb.png"));
             CustomHatManager.RegisterNewHat("Laying Tux", "Peasmod.Resources.Hats.Tux2.png", new Vector2(0f, 0.2f), true, true, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Tux2b.png"));
@@ -50,7 +49,7 @@ namespace Peasmod
             CustomHatManager.RegisterNewHat("Elf Hat", "Peasmod.Resources.Hats.Elf.png", new Vector2(0f, 0.2f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Elfb.png"));
             CustomHatManager.RegisterNewHat("Santa", "Peasmod.Resources.Hats.Santa.png", new Vector2(0f, 0.3f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Santab.png"));
             CustomHatManager.RegisterNewHat("Christmas Tree", "Peasmod.Resources.Hats.XmasTree.png", new Vector2(0f, 0.2f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.XmasTreeb.png"));
-            CustomHatManager.RegisterNewHat("Christmas Sock", "Peasmod.Resources.Hats.Sock.png", new Vector2(0f, 0.2f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Sockb.png"));
+            CustomHatManager.RegisterNewHat("Christmas Sock", "Peasmod.Resources.Hats.Sock.png", new Vector2(0f, 0.2f), true, false, PeasAPI.Utility.CreateSprite("Peasmod.Resources.Hats.Sockb.png"));*/
             
             CustomColorManager.RegisterCustomColor(new Color(59 / 255f, 47 / 255f, 47 / 255f), "Dark Coffee");
             CustomColorManager.RegisterCustomColor(new Color(102/ 255f, 93 / 255f, 30 / 255f), "Antique Bronze");
@@ -75,9 +74,7 @@ namespace Peasmod
             CustomColorManager.RegisterCustomColor(new CustomColorManager.AUColor(new Color(45 / 255f, 37 / 255f, 69 / 255f), new Color(135 / 255f, 179 / 255f, 155 / 255f), "Sourheat"));
             CustomColorManager.RegisterCustomColor(new Color(245 / 255f, 222 / 255f, 179 / 255f), "Wheat");
             CustomColorManager.RegisterCustomColor(new CustomColorManager.AUColor(new Color(65 / 255f, 32 / 255f, 43 / 255f), new Color(50 / 255f, 39 / 255f, 49 / 255f), "Dark Olive"));
-            
-            Settings.Load();
-            
+
             Harmony.PatchAll();
         }
     }

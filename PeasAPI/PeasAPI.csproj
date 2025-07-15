@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <VersionPrefix>1.8.3</VersionPrefix>
+        <VersionSuffix>release</VersionSuffix> 
+        <Description>API for making Among Us mods </Description>
+        <Authors>Peasplayer</Authors>
+        <LangVersion>latest</LangVersion>
+        <DebugType>embedded</DebugType>
+
+        <PackageIcon>PeasAPI-Icon.png</PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/Peasplayer/PeasAPI</RepositoryUrl>
+        <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AmongUs.GameLibs.Steam" Version="2025.4.15"/>
+        <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.1.0-rc.1"/>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735"/>
+        <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
+
+        <PackageReference Include="System.Text.Json" Version="5.0.2" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        
+        <None Include="PeasAPI-Icon.png" Pack="true" PackagePath="" />
+        
+        <EmbeddedResource Include="PeasAPI-Icon.png" />
+        <EmbeddedResource Include="Placeholder.png" />
+    </ItemGroup>
+
+    <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+        <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
+    </Target>
+</Project>
