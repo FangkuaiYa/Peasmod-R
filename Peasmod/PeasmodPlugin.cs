@@ -32,8 +32,7 @@ namespace Peasmod
             Logger = Log;
             ConfigFile = Config;
 
-            WatermarkManager.AddWatermark($" | <color=#ff0000ff>{PluginName}</color> v{PluginVersion} {PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $"\n<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", 
-                new Vector3(0f, -0.3f),  new Vector3(-0.9f, 0f));
+            WatermarkManager.AddWatermark($"<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $"\n<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}");
             
             CustomServerManager.RegisterServer("Peaspowered", "au.peasplayer.tk", 22023);
             CustomServerManager.RegisterServer("matux.fr", "152.228.160.91", 22023);

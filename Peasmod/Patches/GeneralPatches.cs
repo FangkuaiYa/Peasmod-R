@@ -50,31 +50,34 @@ namespace Peasmod.Patches
         [HarmonyPostfix]
         public static void AddSpectatorButtonPatch(PlayerControl __instance)
         {
-            if (__instance.IsLocal() && HudManager.Instance.transform.FindChild("Buttons").FindChild("TopRight").FindChild("SpectatorButton") ==
-                null)
+            if (AmongUsClient.Instance.IsGameStarted)
             {
-                var spectatorButton = Object.Instantiate(HudManager.Instance.transform.FindChild("Buttons")
-                    .FindChild("TopRight").FindChild("MapButton").gameObject, HudManager.Instance.transform.FindChild("Buttons")
-                    .FindChild("TopRight"));
-                spectatorButton.name = "SpectatorButton";
-                var aspect = spectatorButton.GetComponent<AspectPosition>();
-                aspect.DistanceFromEdge = new Vector3(0.4f, 1.7f);
-                aspect.AdjustPosition();
-                var button = spectatorButton.GetComponent<ButtonBehavior>();
-                button.OnClick.RemoveAllListeners();
-                button.OnClick.AddListener((UnityEngine.Events.UnityAction) Listener);
-                void Listener()
+                if (__instance.IsLocal() && HudManager.Instance.transform.FindChild("Buttons").FindChild("TopRight").FindChild("SpectatorButton") ==
+                    null)
                 {
-                    PlayerMenuManager.OpenPlayerMenu(
-                        Utility.GetAllPlayers().Where(player => !player.IsLocal()).ToList()
-                            .ConvertAll(player => player.PlayerId), player => PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(player.transform.position), () => { });
+                    var spectatorButton = Object.Instantiate(HudManager.Instance.transform.FindChild("Buttons")
+                        .FindChild("TopRight").FindChild("MapButton").gameObject, HudManager.Instance.transform.FindChild("Buttons")
+                        .FindChild("TopRight"));
+                    spectatorButton.name = "SpectatorButton";
+                    var aspect = spectatorButton.GetComponent<AspectPosition>();
+                    aspect.DistanceFromEdge = new Vector3(0.4f, 1.7f);
+                    aspect.AdjustPosition();
+                    var button = spectatorButton.GetComponent<ButtonBehavior>();
+                    button.OnClick.RemoveAllListeners();
+                    button.OnClick.AddListener((UnityEngine.Events.UnityAction)Listener);
+                    void Listener()
+                    {
+                        PlayerMenuManager.OpenPlayerMenu(
+                            Utility.GetAllPlayers().Where(player => !player.IsLocal()).ToList()
+                                .ConvertAll(player => player.PlayerId), player => PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(player.transform.position), () => { });
+                    }
+                    spectatorButton.GetComponent<SpriteRenderer>().sprite =
+                        Utility.CreateSprite("Peasmod.Resources.Buttons.SpectatorButton.png", 100f);
                 }
-                spectatorButton.GetComponent<SpriteRenderer>().sprite =
-                    Utility.CreateSprite("Peasmod.Resources.Buttons.SpectatorButton.png", 100f);
-            }
-            else
-            {
-                HudManager.Instance.transform.FindChild("Buttons").FindChild("TopRight").FindChild("SpectatorButton").gameObject.SetActive(true);
+                else
+                {
+                    HudManager.Instance.transform.FindChild("Buttons").FindChild("TopRight").FindChild("SpectatorButton").gameObject.SetActive(true);
+                }
             }
         }
         

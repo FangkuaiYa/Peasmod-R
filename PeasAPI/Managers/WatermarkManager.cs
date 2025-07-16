@@ -2,8 +2,12 @@
 using BepInEx;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using InnerNet;
 using Reactor;
+using Reactor.Patches;
+using TMPro;
 using UnityEngine;
+using static PeasAPI.Managers.WatermarkManager;
 
 namespace PeasAPI.Managers
 {
@@ -17,75 +21,61 @@ namespace PeasAPI.Managers
             public string VersionText { get; set; }
 
             /// <summary>
-            /// How much the version text should be lowered
-            /// </summary>
-            public Vector3 VersionTextOffset { get; set; }
-
-            /// <summary>
             /// Text that gets added to the ping text
             /// </summary>
             public string PingText { get; set; }
 
-            /// <summary>
-            /// How much the ping text should be lowered
-            /// </summary>
-            public Vector3 PingTextOffset { get; set; }
-
-            public Watermark(string versionText, string pingText,
-                Vector3 versionTextOffset, Vector3 pingTextOffset)
+            public Watermark(string versionText, string pingText)
             {
                 VersionText = versionText;
                 PingText = pingText;
-                VersionTextOffset = versionTextOffset;
-                PingTextOffset = pingTextOffset;
             }
         }
 
         private static List<Watermark> Watermarks = new List<Watermark>();
 
-        public static readonly Vector2 defaultVersionTextOffset = new (0f, -0.2f);
-        public static readonly Vector2 defaultPingTextOffset = new Vector2(0f, 0f);
+        public static Watermark PeasApiWatermark = new Watermark($"<color=#ff0000ff>PeasAPI {PeasAPI.Version} <color=#ffffffff> by <color=#ff0000ff>Peasplayer", 
+            "\n<color=#ff0000ff>PeasAPI");
 
-        public static Watermark PeasApiWatermark = new Watermark($"\n<color=#ff0000ff>PeasAPI {PeasAPI.Version} <color=#ffffffff> by <color=#ff0000ff>Peasplayer\n<color=#ffffffff>Reactor v{ReactorPlugin.Version}\nBepInEx v{Paths.BepInExVersion}", 
-            "\n<color=#ff0000ff>PeasAPI", new Vector2(), new Vector2());
-
-        public static void AddWatermark(string versionText, string pingText,
-            Vector2 versionTextOffset = new Vector2(), Vector2 pingTextOffset = new Vector2())
+        public static void AddWatermark(string versionText, string pingText)
         {
-            var watermark = new Watermark(versionText, pingText, versionTextOffset, pingTextOffset);
+            var watermark = new Watermark(versionText, pingText);
             Watermarks.Add(watermark);
         }
 
-        [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-        public static class VersionShowerStartPatch
-        {
-            static void Postfix(VersionShower __instance)
-            {
-                foreach (var watermark in Watermarks)
-                {
-                    __instance.transform.position += watermark.VersionTextOffset;
-                    
-                    if (watermark.VersionText != null)
-                        __instance.text.text += watermark.VersionText;
-                    
-                    foreach (var gameObject in Object.FindObjectsOfTypeAll(Il2CppType.Of<GameObject>()))
-                        if (gameObject.name.Contains("ReactorVersion"))
-                            Object.Destroy(gameObject);
-                }
-                
-                if (PeasAPI.ShamelessPlug)
-                {
-                    __instance.transform.position += PeasApiWatermark.VersionTextOffset;
+        static bool haveStart = false;
 
-                    if (PeasApiWatermark.VersionText != null)
-                        __instance.text.text += PeasApiWatermark.VersionText;
-                    
-                    foreach (var gameObject in Object.FindObjectsOfTypeAll(Il2CppType.Of<GameObject>()))
-                        if (gameObject.name.Contains("ReactorVersion"))
-                            Object.Destroy(gameObject);
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+        public static class MainMenuManagerStartPatch
+        {
+            static void Postfix(MainMenuManager __instance)
+            {
+                if (!haveStart)
+                {
+                    haveStart = true;
+
+                    foreach (var watermark in Watermarks)
+                    {
+                        if (watermark.VersionText != null)
+                        {
+                            ReactorVersionShower.TextUpdated += text =>
+                            {
+                                text.text += "\n" + watermark.VersionText;
+                            };
+                        }
+                    }
+
+                    if (PeasAPI.ShamelessPlug)
+                    {
+                        if (PeasApiWatermark.VersionText != null)
+                        {
+                            ReactorVersionShower.TextUpdated += text =>
+                            {
+                                text.text += "\n" + PeasApiWatermark.VersionText;
+                            };
+                        }
+                    }
                 }
-                
-                __instance.transform.position = new Vector3(-5.2333f, 2.85f, 0f) - new Vector3(0f, 0.2875f / 2 * (__instance.text.text.Split('\n').Length - 1));
             }
         }
         
@@ -94,19 +84,27 @@ namespace PeasAPI.Managers
         {
             public static void Postfix(PingTracker __instance)
             {
-                __instance.transform.localPosition = new Vector3(2.5833f, 2.9f, 0f);
-                foreach (var watermark in Watermarks)
+                var position = __instance.GetComponent<AspectPosition>();
+                if (AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started)
                 {
-                    __instance.transform.localPosition += watermark.PingTextOffset;
-                
+                    __instance.text.alignment = TextAlignmentOptions.Top;
+                    position.Alignment = AspectPosition.EdgeAlignments.Top;
+                    position.DistanceFromEdge = new Vector3(1.5f, 0.11f, 0);
+                }
+                else
+                {
+                    position.Alignment = AspectPosition.EdgeAlignments.LeftTop;
+                    __instance.text.alignment = TextAlignmentOptions.TopLeft;
+                    position.DistanceFromEdge = new Vector3(0.5f, 0.11f);
+                }
+                foreach (var watermark in Watermarks)
+                {                
                     if (watermark.PingText != null)
                         __instance.text.text += watermark.PingText;
                 }
 
                 if (PeasAPI.ShamelessPlug)
                 {
-                    __instance.transform.localPosition += PeasApiWatermark.PingTextOffset;
-                
                     if (PeasApiWatermark.PingText != null)
                         __instance.text.text += PeasApiWatermark.PingText;
                 }

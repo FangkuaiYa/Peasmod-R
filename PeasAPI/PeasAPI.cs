@@ -10,6 +10,7 @@ using PeasAPI.Managers;
 using PeasAPI.Options;
 using Reactor;
 using UnityEngine;
+using static PeasAPI.Managers.WatermarkManager;
 using Random = System.Random;
 
 namespace PeasAPI

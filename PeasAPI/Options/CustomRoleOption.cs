@@ -31,7 +31,7 @@ public class CustomRoleOption : CustomOption
         }
     }
 
-    public Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
+    public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
 
     private static MultiMenu GetMultiMenu(BaseRole baseRole)
     {

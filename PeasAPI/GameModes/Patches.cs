@@ -288,11 +288,15 @@ namespace PeasAPI.GameModes
             }
         }
         
-        /*[HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
         [HarmonyPostfix]
         static void SetupGameModeSetting(AmongUsClient __instance)
         {
-            GameModeManager.GameModeOption.Values = GameModeManager.Modes.ConvertAll(mode => mode.Name).Prepend("None").ToList().ConvertAll(mode => (StringNames) CustomStringName.CreateAndRegister(mode));
-        }*/
+            var modeNames = GameModeManager.Modes.ConvertAll(mode => mode.Name);
+
+            modeNames.Insert(0, "None");
+
+            GameModeManager.GameModeOption.Values = modeNames.ToArray();
+        }
     }
 }
