@@ -459,7 +459,8 @@ public static class Patches
             var overview = GameObject.Find("OverviewTab");
             overview.transform.localScale += new Vector3(-0.35f, 0f, 0f);
             overview.transform.localPosition += new Vector3(-1f, 0f, 0f);
-            //overview.transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>().transform.localScale = Vector3.one;
+            overview.transform.GetChild(0).GetChild(0).transform.localScale += new Vector3(0.35f, 0f, 0f);
+            overview.transform.GetChild(0).GetChild(0).transform.localPosition += new Vector3(-1f, 0f, 0f);
 
             CreateButton(__instance, 1, "ModTab", "Mod Settings", MultiMenu.Main, overview);
             CreateButton(__instance, 2, "CrewmateTab", "Crewmate Settings", MultiMenu.Crewmate, overview);
@@ -475,6 +476,7 @@ public static class Patches
             {
                 tab = GameObject.Instantiate(overview, overview.transform.parent);
                 tab.transform.localPosition += new Vector3(2.5f, 0f, 0f) * target;
+                tab.transform.GetChild(0).GetChild(0).transform.localPosition += new Vector3(-0.5f, 0f, 0f); 
                 tab.name = name;
                 __instance.StartCoroutine(Effects.Lerp(1f,
                     new Action<float>(p =>
@@ -522,7 +524,6 @@ public static class Patches
                     headingCount += 1;
                     settingsThisHeader = 0;
                 }
-
                 else
                 {
                     var playerCount = GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers;
@@ -548,9 +549,8 @@ public static class Patches
                     __instance.settingsInfo.Add(panel.gameObject);
                 }
 
-            var spacing = (headingCount * 1f + settingRowCount * 0.95f + 2f) / (headingCount + settingRowCount);
-            __instance.scrollBar.CalculateAndSetYBounds(__instance.settingsInfo.Count + headingCount + settingRowCount,
-                4f, 4f, spacing);
+            float actual_spacing = (headingCount * 1.05f + settingRowCount * 0.85f) / (headingCount + settingRowCount) * 1.01f;
+            __instance.scrollBar.CalculateAndSetYBounds(__instance.settingsInfo.Count + (headingCount + settingRowCount) * 2 + headingCount, 2f, 6f, actual_spacing);
         }
     }
 

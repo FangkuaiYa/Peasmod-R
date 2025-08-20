@@ -1,11 +1,14 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Configuration;
-using HarmonyLib;
-using Reactor;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using PeasAPI.Managers;
+using Reactor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Peasmod
 {
@@ -33,10 +36,6 @@ namespace Peasmod
             ConfigFile = Config;
 
             WatermarkManager.AddWatermark($"<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}", $"\n<color=#ff0000ff>{PluginName}</color> v{PluginVersion}\n{PeasAPI.Utility.StringColor.Green} by {PluginAuthor}");
-            
-            CustomServerManager.RegisterServer("Peaspowered", "au.peasplayer.tk", 22023);
-            CustomServerManager.RegisterServer("matux.fr", "152.228.160.91", 22023);
-            CustomServerManager.RegisterServer("Miniduikboot's Server", "impostor.duikbo.at", 22023);
             
             UpdateManager.RegisterGitHubUpdateListener("Peasplayer", "Peasmod");
             
@@ -73,6 +72,13 @@ namespace Peasmod
             CustomColorManager.RegisterCustomColor(new CustomColorManager.AUColor(new Color(45 / 255f, 37 / 255f, 69 / 255f), new Color(135 / 255f, 179 / 255f, 155 / 255f), "Sourheat"));
             CustomColorManager.RegisterCustomColor(new Color(245 / 255f, 222 / 255f, 179 / 255f), "Wheat");
             CustomColorManager.RegisterCustomColor(new CustomColorManager.AUColor(new Color(65 / 255f, 32 / 255f, 43 / 255f), new Color(50 / 255f, 39 / 255f, 49 / 255f), "Dark Olive"));
+
+            //ServerManager.DefaultRegions = new Il2CppReferenceArray<IRegionInfo>([]);
+            CustomServerManager.RegisterServer("Peaspowered", "https://auhk.fangkuai.fun", 443);
+            //CustomServerManager.RegisterServer("matux.fr", "152.228.160.91", 22023); // This server was shut down
+            CustomServerManager.RegisterServer("Modded EU (MEU)", "https://au-eu.duikbo.at", 443);
+            CustomServerManager.RegisterServer("Modded NA (MNA)", "https://www.aumods.org", 443);
+            CustomServerManager.RegisterServer("Modded Asia (MAS)", "https://au-as.duikbo.at", 443);
 
             Harmony.PatchAll();
         }

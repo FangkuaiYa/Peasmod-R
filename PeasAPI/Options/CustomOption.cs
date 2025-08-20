@@ -74,7 +74,7 @@ public class CustomOption
 
     public void Set(object value, bool SendRpc = true, bool Notify = false)
     {
-        PeasAPI.Logger.LogInfo($"{Name} set to {value}");
+        //PeasAPI.Logger.LogInfo($"{Name} set to {value}");
 
         ValueObject = value;
 
