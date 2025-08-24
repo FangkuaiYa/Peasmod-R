@@ -18,7 +18,7 @@ namespace Peasmod.GameModes
             Instance = this;
         }
 
-        public override string Name => $"{Utility.StringColor.Red}BattleRoyale";
+        public override string Name => $"{Utility.StringColor.Red}Battle Royale";
 
         public override bool HasToDoTasks => false;
 

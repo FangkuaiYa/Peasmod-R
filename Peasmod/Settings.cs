@@ -1,5 +1,4 @@
 ﻿using PeasAPI;
-using PeasAPI.GameModes;
 using PeasAPI.Options;
 
 namespace Peasmod

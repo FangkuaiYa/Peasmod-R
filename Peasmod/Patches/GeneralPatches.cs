@@ -62,7 +62,7 @@ namespace Peasmod.Patches
                     var aspect = spectatorButton.GetComponent<AspectPosition>();
                     aspect.DistanceFromEdge = new Vector3(0.4f, 1.7f);
                     aspect.AdjustPosition();
-                    var button = spectatorButton.GetComponent<ButtonBehavior>();
+                    var button = spectatorButton.GetComponent<PassiveButton>();
                     button.OnClick.RemoveAllListeners();
                     button.OnClick.AddListener((UnityEngine.Events.UnityAction)Listener);
                     void Listener()
@@ -71,8 +71,11 @@ namespace Peasmod.Patches
                             Utility.GetAllPlayers().Where(player => !player.IsLocal()).ToList()
                                 .ConvertAll(player => player.PlayerId), player => PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(player.transform.position), () => { });
                     }
-                    spectatorButton.GetComponent<SpriteRenderer>().sprite =
-                        Utility.CreateSprite("Peasmod.Resources.Buttons.SpectatorButton.png", 100f);
+                    SpriteRenderer renderer = spectatorButton.transform.Find("Inactive").GetComponent<SpriteRenderer>();
+                    SpriteRenderer rendererActive = spectatorButton.transform.Find("Active").GetComponent<SpriteRenderer>();
+                    spectatorButton.transform.Find("Background").localPosition = Vector3.zero;
+                    renderer.sprite = Utility.CreateSprite("Peasmod.Resources.Buttons.SpectatorButton.png", 100f);
+                    rendererActive.sprite = Utility.CreateSprite("Peasmod.Resources.Buttons.SpectatorButtonActive.png", 100);
                 }
                 else
                 {
