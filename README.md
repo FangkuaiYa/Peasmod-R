@@ -9,6 +9,7 @@ Play with the classic roles and gamemodes. Currently it contains 13 roles and 3 
 # Releases
 | Mod Version| Game Version | Link |
 |----------|-------------|-----------------|
+| 16.1.0s & 16.0.5s| 3.1.0| [Download](https://github.com/fangkuaiclub/Peasmod-R/releases/download/3.1.0/Peasmod.zip)
 | 16.1.0s & 16.0.5s| 3.0.0-pre2.3| [Download](https://github.com/fangkuaiclub/Peasmod-R/releases/download/3.0.0-pre2.3/Peasmod.zip)
 | 2022.3.29s| 3.0.0-pre2.2| [Download](https://github.com/Peasplayer/Peasmod/releases/download/3.0.0-pre2.2/Peasmod.zip)
 | 2022.2.24s| 3.0.0-pre2.1| [Download](https://github.com/Peasplayer/Peasmod/releases/download/3.0.0-pre2.1/Peasmod.zip)
